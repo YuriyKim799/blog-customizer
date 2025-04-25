@@ -89,8 +89,9 @@
 }
 
 .option-black::before {
-	@include option-color-before;
 	background-color: #000000;
+
+	@include option-color-before;
 }
 
 @mixin option-color-after {
@@ -103,90 +104,107 @@
 }
 
 .option-black[data-selected='true']::after {
-	@include option-color-after;
 	background-color: #ffffff;
+
+	@include option-color-after;
 }
 
 .option-white::before {
-	@include option-color-before;
 	box-sizing: border-box;
 	background-color: #ffffff;
 	border: 1px solid #000000;
+
+	@include option-color-before;
 }
 
 .option-white[data-selected='true']::after {
-	@include option-color-after;
 	background-color: #000000;
+
+	@include option-color-after;
 }
 
 .option-gray::before {
-	@include option-color-before;
 	background-color: #c4c4c4;
+
+	@include option-color-before;
 }
 
 .option-gray[data-selected='true']::after {
-	@include option-color-after;
 	background-color: #ffffff;
+
+	@include option-color-after;
 }
 
 .option-pink::before {
-	@include option-color-before;
 	background-color: #feafe8;
+
+	@include option-color-before;
 }
 
 .option-pink[data-selected='true']::after {
-	@include option-color-after;
 	background-color: #ffffff;
+
+	@include option-color-after;
 }
 
 .option-fuchsia::before {
-	@include option-color-before;
 	background-color: #fd24af;
+
+	@include option-color-before;
 }
 
 .option-fuchsia[data-selected='true']::after {
-	@include option-color-after;
 	background-color: #ffffff;
+
+	@include option-color-after;
 }
 
 .option-yellow::before {
-	@include option-color-before;
 	background-color: #ffc802;
+
+	@include option-color-before;
 }
 
 .option-yellow[data-selected='true']::after {
-	@include option-color-after;
 	background-color: #ffffff;
+
+	@include option-color-after;
 }
 
 .option-green::before {
-	@include option-color-before;
 	background-color: #80d994;
+
+	@include option-color-before;
 }
 
 .option-green[data-selected='true']::after {
-	@include option-color-after;
 	background-color: #ffffff;
+
+	@include option-color-after;
 }
 
 .option-blue::before {
-	@include option-color-before;
 	background-color: #6fc1fd;
+
+	@include option-color-before;
 }
 
 .option-blue[data-selected='true']::after {
-	@include option-color-after;
 	background-color: #ffffff;
+
+	@include option-color-after;
 }
 
 .option-purple::before {
-	@include option-color-before;
 	background-color: #5f0dee;
+
+	@include option-color-before;
 }
 
 .option-purple[data-selected='true']::after {
-	@include option-color-after;
 	background-color: #ffffff;
+
+	@include option-color-after;
 }
 
 @mixin option-width-before {
@@ -197,11 +215,13 @@
 }
 
 .option-wide::before {
-	@include option-width-before;
 	background-image: url('../../images/wide.svg');
+
+	@include option-width-before;
 }
 
 .option-narrow::before {
-	@include option-width-before;
 	background-image: url('../../images/narrow.svg');
+
+	@include option-width-before;
 }
