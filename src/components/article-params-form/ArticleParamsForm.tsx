@@ -4,20 +4,34 @@ import styles from './ArticleParamsForm.module.scss';
 import { useState, FormEvent } from 'react';
 import { Select } from 'src/ui/select';
 import {
-	// defaultArticleState,
+	defaultArticleState,
 	fontFamilyOptions,
+	OptionType,
 } from 'src/constants/articleProps';
 
-export const ArticleParamsForm = () => {
-	const [open, setOpen] = useState(false);
-	// const [options, setOptions] = useState('');
+type ArticleParamsFormProps = {
+	currentState: typeof defaultArticleState;
+	onStateChange: (newState: Partial<typeof defaultArticleState>) => void;
+};
 
-	const handleChange = (e) => {
-		console.log(e);
+export const ArticleParamsForm = ({
+	currentState,
+	onStateChange,
+}: ArticleParamsFormProps) => {
+	const [open, setOpen] = useState(false);
+	const [selectedFont, setSelectedFont] = useState(
+		currentState.fontFamilyOption
+	);
+
+	const handleChange = (e: OptionType) => {
+		setSelectedFont(e);
 	};
 
 	const handleSubmit = (e: FormEvent) => {
 		e.preventDefault();
+		onStateChange({
+			fontFamilyOption: selectedFont,
+		});
 	};
 
 	return (
@@ -31,11 +45,13 @@ export const ArticleParamsForm = () => {
 			<aside className={open ? styles.container_open : styles.container}>
 				<form className={styles.form} onSubmit={handleSubmit}>
 					<Select
-						selected={null}
+						selected={selectedFont}
 						options={fontFamilyOptions}
-						// placeholder={
-						// 	select ? select : defaultArticleState.fontFamilyOption.value
-						// }
+						placeholder={
+							selectedFont.value
+								? selectedFont.value
+								: defaultArticleState.fontFamilyOption.value
+						}
 						onChange={handleChange}
 						title={'Шрифт'}
 					/>
