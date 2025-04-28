@@ -1,7 +1,6 @@
 import { createRoot } from 'react-dom/client';
 import { StrictMode, CSSProperties, useState } from 'react';
 import clsx from 'clsx';
-
 import { Article } from './components/article/Article';
 import { ArticleParamsForm } from './components/article-params-form/ArticleParamsForm';
 import { defaultArticleState } from './constants/articleProps';
@@ -17,7 +16,6 @@ const App = () => {
 
 	const updateState = (newState: Partial<typeof defaultArticleState>) => {
 		setArticleState((prev) => ({ ...prev, ...newState }));
-		console.log(articleState.fontFamilyOption.value);
 	};
 
 	return (
@@ -26,10 +24,10 @@ const App = () => {
 			style={
 				{
 					'--font-family': articleState.fontFamilyOption.value,
-					'--font-size': defaultArticleState.fontSizeOption.value,
-					'--font-color': defaultArticleState.fontColor.value,
-					'--container-width': defaultArticleState.contentWidth.value,
-					'--bg-color': defaultArticleState.backgroundColor.value,
+					'--font-size': articleState.fontSizeOption.value,
+					'--font-color': articleState.fontColor.value,
+					'--container-width': articleState.contentWidth.value,
+					'--bg-color': articleState.backgroundColor.value,
 				} as CSSProperties
 			}>
 			<ArticleParamsForm
