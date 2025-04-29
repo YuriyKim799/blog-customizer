@@ -17,6 +17,12 @@ jobs:
     - name: Check if the repository is private
       if: ${{github.event.repository.private}}
       run: exit 1
+    - name: Install dependencies
+      run: npm install
+    - name: Install Playwright browsers
+      run: npx playwright install --with-deps
+    - name: Run tests
+      run: npm test  
     - name: Get testing lib
       run: set -eu && git clone https://github.com/Yandex-Practicum/tests-blog-customizer.git /tmp/tests-blog-customizer
     - name: Run tests
