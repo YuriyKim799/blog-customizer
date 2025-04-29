@@ -27,6 +27,11 @@ jobs:
       run: set -eu && git clone https://github.com/Yandex-Practicum/tests-blog-customizer.git /tmp/tests-blog-customizer
     - name: Run tests
       run: bash /tmp/tests-blog-customizer/run.sh
+    - name: Cache Playwright browsers  
+      uses: actions/cache@v3
+      with:
+            path: ~/.cache/ms-playwright
+            key: playwright-${{ hashFiles('package-lock.json') }}
     - uses: actions/upload-artifact@v4
       if: always()
       with:
