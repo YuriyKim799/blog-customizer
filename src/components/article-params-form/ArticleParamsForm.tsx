@@ -1,7 +1,7 @@
 import { ArrowButton } from 'src/ui/arrow-button';
 import { Button } from 'src/ui/button';
 import styles from './ArticleParamsForm.module.scss';
-import { useState, FormEvent, useEffect } from 'react';
+import { useState, FormEvent, useEffect, useRef } from 'react';
 import { Select } from 'src/ui/select';
 import {
 	backgroundColors,
@@ -15,6 +15,7 @@ import {
 import { RadioGroup } from 'src/ui/radio-group';
 import { Separator } from 'src/ui/separator';
 import clsx from 'clsx';
+import { Text } from 'src/ui/text';
 
 type ArticleParamsFormProps = {
 	currentState: typeof defaultArticleState;
@@ -28,7 +29,10 @@ export const ArticleParamsForm = ({
 	const [open, setOpen] = useState(false);
 	const [formState, setFormState] = useState(currentState);
 
-	const arrowBtnClick = () => {
+	const asideFormRef = useRef<HTMLElement | null>(null);
+
+	const arrowBtnClick = (e: React.MouseEvent) => {
+		e.stopPropagation();
 		setOpen(!open);
 	};
 
@@ -58,15 +62,35 @@ export const ArticleParamsForm = ({
 		setFormState(currentState);
 	}, [currentState]);
 
+	useEffect(() => {
+		if (open) {
+			const handleDocumentClick = (e: Event) => {
+				if (!asideFormRef.current?.contains(e.target as Node)) {
+					setOpen(false);
+					console.log('asideFormRef');
+				}
+			};
+			document.addEventListener('click', handleDocumentClick);
+			return () => {
+				console.log('closed aside and deleted handleDocumentClick');
+				document.removeEventListener('click', handleDocumentClick);
+			};
+		}
+	}, [open]);
+
 	return (
 		<>
-			<ArrowButton isOpen={open} onClick={arrowBtnClick} />
+			<ArrowButton isOpen={open} onClick={(e) => arrowBtnClick(e)} />
 			<aside
-				className={clsx(styles.container, { [styles.container_open]: open })}>
+				className={clsx(styles.container, { [styles.container_open]: open })}
+				ref={asideFormRef}>
 				<form
 					className={styles.form}
 					onSubmit={handleSubmit}
 					onReset={handleReset}>
+					<Text size={31} weight={800} uppercase={true}>
+						{'Задайте параметры'}
+					</Text>
 					<Select
 						selected={formState.fontFamilyOption}
 						options={fontFamilyOptions}
