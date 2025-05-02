@@ -4,6 +4,7 @@ import styles from './ArticleParamsForm.module.scss';
 import { useState, FormEvent, useEffect, useRef } from 'react';
 import { Select } from 'src/ui/select';
 import {
+	ArticleStateType,
 	backgroundColors,
 	contentWidthArr,
 	defaultArticleState,
@@ -18,7 +19,7 @@ import clsx from 'clsx';
 import { Text } from 'src/ui/text';
 
 type ArticleParamsFormProps = {
-	currentState: typeof defaultArticleState;
+	currentState: ArticleStateType;
 	onStateChange: (newState: Partial<typeof defaultArticleState>) => void;
 };
 
@@ -98,7 +99,7 @@ export const ArticleParamsForm = ({
 					onSubmit={handleSubmit}
 					onReset={handleReset}>
 					<Text size={31} weight={800} uppercase={true}>
-						{'Задайте параметры'}
+						<h2>{'Задайте параметры'}</h2>
 					</Text>
 					<Select
 						selected={formState.fontFamilyOption}
