@@ -26,14 +26,14 @@ export const ArticleParamsForm = ({
 	currentState,
 	onStateChange,
 }: ArticleParamsFormProps) => {
-	const [open, setOpen] = useState(false);
+	const [openAside, setOpenAside] = useState(false);
 	const [formState, setFormState] = useState(currentState);
 
 	const asideFormRef = useRef<HTMLElement | null>(null);
 
 	const arrowBtnClick = (e: React.MouseEvent) => {
 		e.stopPropagation();
-		setOpen(!open);
+		setOpenAside(!openAside);
 	};
 
 	const handleChange =
@@ -63,26 +63,35 @@ export const ArticleParamsForm = ({
 	}, [currentState]);
 
 	useEffect(() => {
-		if (open) {
+		if (openAside) {
 			const handleDocumentClick = (e: Event) => {
-				if (!asideFormRef.current?.contains(e.target as Node)) {
-					setOpen(false);
-					console.log('asideFormRef');
+				const target = e.target as HTMLElement;
+				if (
+					!asideFormRef.current?.contains(e.target as Node) &&
+					!target.closest('select, input, button, li')
+				) {
+					setOpenAside(false);
 				}
 			};
 			document.addEventListener('click', handleDocumentClick);
+			document.addEventListener('keydown', (e: KeyboardEvent) => {
+				if (e.key === 'Escape') {
+					handleDocumentClick(e);
+				}
+			});
 			return () => {
-				console.log('closed aside and deleted handleDocumentClick');
 				document.removeEventListener('click', handleDocumentClick);
 			};
 		}
-	}, [open]);
+	}, [openAside]);
 
 	return (
 		<>
-			<ArrowButton isOpen={open} onClick={(e) => arrowBtnClick(e)} />
+			<ArrowButton isOpen={openAside} onClick={(e) => arrowBtnClick(e)} />
 			<aside
-				className={clsx(styles.container, { [styles.container_open]: open })}
+				className={clsx(styles.container, {
+					[styles.container_open]: openAside,
+				})}
 				ref={asideFormRef}>
 				<form
 					className={styles.form}
