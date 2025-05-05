@@ -29,8 +29,45 @@ export const ArticleParamsForm = ({
 }: ArticleParamsFormProps) => {
 	const [openAside, setOpenAside] = useState(false);
 	const [formState, setFormState] = useState(currentState);
-
 	const asideFormRef = useRef<HTMLElement | null>(null);
+
+	useEffect(() => {
+		// Синхронизация состояния только при изменении внешнего состояния
+		if (!openAside) {
+			setFormState(currentState);
+		}
+	}, [currentState, openAside]);
+
+	useEffect(() => {
+		if (openAside) {
+			const handleDocumentClick = (e: Event) => {
+				const target = e.target as HTMLElement;
+				if (
+					!asideFormRef.current?.contains(e.target as Node) &&
+					!target.closest('select, input, button, li')
+				) {
+					setOpenAside(false);
+				}
+			};
+
+			const handleKeyDown = (e: KeyboardEvent) => {
+				if (e.key === 'Escape') {
+					setOpenAside(false);
+				}
+			};
+
+			document.addEventListener('click', handleDocumentClick);
+			document.addEventListener('keydown', (e: KeyboardEvent) => {
+				if (e.key === 'Escape') {
+					handleDocumentClick(e);
+				}
+			});
+			return () => {
+				document.removeEventListener('click', handleDocumentClick);
+				document.removeEventListener('keydown', handleKeyDown);
+			};
+		}
+	}, [openAside]);
 
 	const arrowBtnClick = (e: React.MouseEvent) => {
 		e.stopPropagation();
@@ -43,7 +80,6 @@ export const ArticleParamsForm = ({
 				...prev,
 				[type]: {
 					...prev[type],
-					// Если нужно сохранить другие свойства опции
 					...option,
 				},
 			}));
@@ -59,33 +95,6 @@ export const ArticleParamsForm = ({
 		onStateChange(defaultArticleState);
 	};
 
-	useEffect(() => {
-		setFormState(currentState);
-	}, [currentState]);
-
-	useEffect(() => {
-		if (openAside) {
-			const handleDocumentClick = (e: Event) => {
-				const target = e.target as HTMLElement;
-				if (
-					!asideFormRef.current?.contains(e.target as Node) &&
-					!target.closest('select, input, button, li')
-				) {
-					setOpenAside(false);
-				}
-			};
-			document.addEventListener('click', handleDocumentClick);
-			document.addEventListener('keydown', (e: KeyboardEvent) => {
-				if (e.key === 'Escape') {
-					handleDocumentClick(e);
-				}
-			});
-			return () => {
-				document.removeEventListener('click', handleDocumentClick);
-			};
-		}
-	}, [openAside]);
-
 	return (
 		<>
 			<ArrowButton isOpen={openAside} onClick={(e) => arrowBtnClick(e)} />
@@ -98,8 +107,8 @@ export const ArticleParamsForm = ({
 					className={styles.form}
 					onSubmit={handleSubmit}
 					onReset={handleReset}>
-					<Text size={31} weight={800} uppercase={true}>
-						<h2>{'Задайте параметры'}</h2>
+					<Text size={31} weight={800} uppercase={true} as={'h2'}>
+						{'Задайте параметры'}
 					</Text>
 					<Select
 						selected={formState.fontFamilyOption}
