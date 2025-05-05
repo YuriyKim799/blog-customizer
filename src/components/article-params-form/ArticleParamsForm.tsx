@@ -19,32 +19,31 @@ import clsx from 'clsx';
 import { Text } from 'src/ui/text';
 
 type ArticleParamsFormProps = {
-	currentState: ArticleStateType;
-	onStateChange: (newState: Partial<typeof defaultArticleState>) => void;
+	articleState: ArticleStateType;
+	setArticleState: (newState: ArticleStateType) => void;
 };
 
 export const ArticleParamsForm = ({
-	currentState,
-	onStateChange,
+	articleState,
+	setArticleState,
 }: ArticleParamsFormProps) => {
 	const [openAside, setOpenAside] = useState(false);
-	const [formState, setFormState] = useState(currentState);
+	const [formState, setFormState] = useState(articleState);
 	const asideFormRef = useRef<HTMLElement | null>(null);
 
 	useEffect(() => {
-		// Синхронизация состояния только при изменении внешнего состояния
 		if (!openAside) {
-			setFormState(currentState);
+			setFormState(articleState);
 		}
-	}, [currentState, openAside]);
+	}, [articleState]);
 
 	useEffect(() => {
+		if (!openAside) return;
 		if (openAside) {
-			const handleDocumentClick = (e: Event) => {
-				const target = e.target as HTMLElement;
+			const handleDocumentClick = (e: MouseEvent) => {
 				if (
-					!asideFormRef.current?.contains(e.target as Node) &&
-					!target.closest('select, input, button, li')
+					asideFormRef.current &&
+					!asideFormRef.current.contains(e.target as Node)
 				) {
 					setOpenAside(false);
 				}
@@ -59,7 +58,7 @@ export const ArticleParamsForm = ({
 			document.addEventListener('click', handleDocumentClick);
 			document.addEventListener('keydown', (e: KeyboardEvent) => {
 				if (e.key === 'Escape') {
-					handleDocumentClick(e);
+					handleKeyDown(e);
 				}
 			});
 			return () => {
@@ -87,12 +86,12 @@ export const ArticleParamsForm = ({
 
 	const handleSubmit = (e: FormEvent) => {
 		e.preventDefault();
-		onStateChange(formState);
+		setArticleState(formState);
 	};
 
 	const handleReset = () => {
 		setFormState(defaultArticleState);
-		onStateChange(defaultArticleState);
+		setArticleState(defaultArticleState);
 	};
 
 	return (

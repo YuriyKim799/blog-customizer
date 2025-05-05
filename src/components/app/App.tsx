@@ -7,9 +7,9 @@ import styles from 'src/styles/index.module.scss';
 export const App = () => {
 	const [articleState, setArticleState] = useState(defaultArticleState);
 
-	const updateState = (newState: Partial<typeof defaultArticleState>) => {
-		setArticleState((prev) => ({ ...prev, ...newState }));
-	};
+	// const updateState = (newState: Partial<typeof defaultArticleState>) => {
+	// 	setArticleState((prev) => ({ ...prev, ...newState }));
+	// };
 
 	return (
 		<main
@@ -24,8 +24,8 @@ export const App = () => {
 				} as CSSProperties
 			}>
 			<ArticleParamsForm
-				currentState={articleState}
-				onStateChange={updateState}
+				articleState={articleState}
+				setArticleState={setArticleState}
 			/>
 			<Article />
 		</main>
