@@ -55,7 +55,7 @@ export const ArticleParamsForm = ({
 			}
 		};
 
-		document.addEventListener('click', handleDocumentClick);
+		document.addEventListener('mousedown', handleDocumentClick);
 		document.addEventListener('keydown', (e: KeyboardEvent) => {
 			if (e.key === 'Escape') {
 				handleKeyDown(e);
