@@ -17,10 +17,21 @@ jobs:
     - name: Check if the repository is private
       if: ${{github.event.repository.private}}
       run: exit 1
+    - name: Install dependencies
+      run: npm install
+    - name: Install Playwright browsers
+      run: npx playwright install --with-deps
+    - name: Run tests
+      run: npm test  
     - name: Get testing lib
       run: set -eu && git clone https://github.com/Yandex-Practicum/tests-blog-customizer.git /tmp/tests-blog-customizer
     - name: Run tests
       run: bash /tmp/tests-blog-customizer/run.sh
+    - name: Cache Playwright browsers  
+      uses: actions/cache@v3
+      with:
+            path: ~/.cache/ms-playwright
+            key: playwright-${{ hashFiles('package-lock.json') }}
     - uses: actions/upload-artifact@v4
       if: always()
       with:
