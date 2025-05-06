@@ -7,10 +7,6 @@ import styles from 'src/styles/index.module.scss';
 export const App = () => {
 	const [articleState, setArticleState] = useState(defaultArticleState);
 
-	// const updateState = (newState: Partial<typeof defaultArticleState>) => {
-	// 	setArticleState((prev) => ({ ...prev, ...newState }));
-	// };
-
 	return (
 		<main
 			className={styles.main}

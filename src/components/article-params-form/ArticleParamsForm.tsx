@@ -39,33 +39,33 @@ export const ArticleParamsForm = ({
 
 	useEffect(() => {
 		if (!openAside) return;
-		if (openAside) {
-			const handleDocumentClick = (e: MouseEvent) => {
-				if (
-					asideFormRef.current &&
-					!asideFormRef.current.contains(e.target as Node)
-				) {
-					setOpenAside(false);
-				}
-			};
 
-			const handleKeyDown = (e: KeyboardEvent) => {
-				if (e.key === 'Escape') {
-					setOpenAside(false);
-				}
-			};
+		const handleDocumentClick = (e: MouseEvent) => {
+			if (
+				asideFormRef.current &&
+				!asideFormRef.current.contains(e.target as Node)
+			) {
+				setOpenAside(false);
+			}
+		};
 
-			document.addEventListener('click', handleDocumentClick);
-			document.addEventListener('keydown', (e: KeyboardEvent) => {
-				if (e.key === 'Escape') {
-					handleKeyDown(e);
-				}
-			});
-			return () => {
-				document.removeEventListener('click', handleDocumentClick);
-				document.removeEventListener('keydown', handleKeyDown);
-			};
-		}
+		const handleKeyDown = (e: KeyboardEvent) => {
+			if (e.key === 'Escape') {
+				setOpenAside(false);
+			}
+		};
+
+		document.addEventListener('click', handleDocumentClick);
+		document.addEventListener('keydown', (e: KeyboardEvent) => {
+			if (e.key === 'Escape') {
+				handleKeyDown(e);
+			}
+		});
+
+		return () => {
+			document.removeEventListener('click', handleDocumentClick);
+			document.removeEventListener('keydown', handleKeyDown);
+		};
 	}, [openAside]);
 
 	const arrowBtnClick = (e: React.MouseEvent) => {
