@@ -4,7 +4,7 @@ import styles from './ArrowButton.module.scss';
 import clsx from 'clsx';
 
 /** Функция для обработки открытия/закрытия формы */
-export type OnClick = () => void;
+export type OnClick = (e: React.MouseEvent) => void;
 
 type ArrowButtonProps = {
 	isOpen: boolean;
